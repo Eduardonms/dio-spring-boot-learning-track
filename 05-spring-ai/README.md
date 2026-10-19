@@ -64,6 +64,60 @@ Os conceitos comuns de arquitetura estão documentados no README da raiz:
 - [Casos de uso e Clean Architecture](../README.md#use-cases-and-clean-architecture)
 - [Suporte ao Docker Compose](../README.md#docker-compose-support-in-development)
 
+## API REST
+
+A API fica disponível em `http://localhost:8080`.
+
+### Swagger UI e OpenAPI
+
+Com a aplicação em execução, acesse [Swagger UI](http://localhost:8080/swagger-ui/index.html) para explorar e testar os endpoints. A especificação OpenAPI em JSON fica disponível em [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs).
+
+No Swagger UI, use **Try it out** para enviar requisições. Para `POST /transactions/ai`, selecione um arquivo de áudio no campo `file`; essa operação requer uma chave válida da OpenAI.
+
+### Criar uma transação
+
+`POST /transactions` recebe a descrição, a categoria e o valor em centavos. As categorias aceitas são `GROCERIES`, `PHARMA` e `AUTO`.
+
+```bash
+curl -X POST http://localhost:8080/transactions \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Compras do mercado","category":"GROCERIES","amount":1234}'
+```
+
+O endpoint responde com `201 Created`. O valor da resposta é apresentado em reais (por exemplo, `12.34`). A descrição não pode ficar em branco e o valor deve ser maior que zero.
+
+### Consultar transações por categoria
+
+`GET /transactions/{categoria}` retorna as transações da categoria informada:
+
+```bash
+curl http://localhost:8080/transactions/GROCERIES
+```
+
+### Enviar um comando de voz
+
+`POST /transactions/ai` recebe um arquivo de áudio no campo multipart `file` e retorna um arquivo MP3:
+
+```bash
+curl -X POST http://localhost:8080/transactions/ai \
+  -F "file=@comando.m4a" \
+  --output resposta.mp3
+```
+
+Esse fluxo requer uma chave válida da OpenAI. Requisições com dados de transação inválidos recebem `400 Bad Request`, com uma mensagem e os campos que precisam ser corrigidos.
+
+Exemplo de resposta para uma requisição inválida:
+
+```json
+{
+  "message": "A requisição contém dados inválidos.",
+  "errors": {
+    "description": "A descrição é obrigatória.",
+    "amount": "O valor deve ser maior que zero centavos."
+  }
+}
+```
+
 ## Como executar
 
 Defina sua chave de API da OpenAI:
