@@ -1,85 +1,85 @@
-# DIO Spring Boot - Final Project 05: Spring AI (budgeting)
+# DIO Spring Boot - Projeto Final 05: Spring AI (orçamento)
 
-## Introduction
+## Introdução
 
-This final module applies Spring AI in a budgeting API while preserving the same layered architecture used across the track.
+Este módulo final aplica Spring AI a uma API de orçamento, preservando a mesma arquitetura em camadas utilizada ao longo da trilha.
 
-The goal is to integrate AI capabilities without bypassing domain and use case boundaries.
+O objetivo é integrar recursos de IA sem ignorar os limites do domínio e dos casos de uso.
 
-## Code Context
+## Contexto do código
 
-The project processes voice commands to create and query financial transactions.
+O projeto processa comandos de voz para criar e consultar transações financeiras.
 
-Primary flow:
+Fluxo principal:
 
-1. Client uploads an audio file.
-2. Audio is transcribed into text.
-3. The model selects an application tool/use case.
-4. The use case persists or queries transaction data.
-5. The final response is converted to audio.
+1. O cliente envia um arquivo de áudio.
+2. O áudio é transcrito para texto.
+3. O modelo seleciona uma ferramenta/caso de uso da aplicação.
+4. O caso de uso persiste ou consulta os dados das transações.
+5. A resposta final é convertida em áudio.
 
-## Project Structure
+## Estrutura do projeto
 
 - `src/main/java/dio/budgeting/domain`
-  - Domain model and repository contract.
+  - Modelo de domínio e contrato do repositório.
 - `src/main/java/dio/budgeting/application`
-  - Use cases used by both REST and AI tool calling.
+  - Casos de uso utilizados tanto pela API REST quanto pela chamada de ferramentas de IA.
 - `src/main/java/dio/budgeting/infrastructure`
-  - HTTP adapters, JPA adapters, and integration glue.
+  - Adaptadores HTTP, adaptadores JPA e componentes de integração.
 
-## Module-Specific Topics
+## Tópicos específicos do módulo
 
-### Speech-to-text
+### Conversão de fala em texto
 
-- Uses `TranscriptionModel` for audio transcription.
-- Model settings are configured in `application.properties`.
+- Utiliza `TranscriptionModel` para transcrever o áudio.
+- As configurações do modelo são definidas em `application.properties`.
 
-### Tool calling
+### Chamada de ferramentas
 
-- `ChatClient` registers use-case tools.
-- `@Tool` methods expose business capabilities to the model.
+- `ChatClient` registra as ferramentas dos casos de uso.
+- Os métodos anotados com `@Tool` disponibilizam funcionalidades de negócio para o modelo.
 
-### Text-to-speech
+### Conversão de texto em fala
 
-- `TextToSpeechModel` produces MP3 output from final text.
-- AI endpoint returns generated audio.
+- `TextToSpeechModel` gera um arquivo MP3 a partir do texto final.
+- O endpoint de IA retorna o áudio gerado.
 
-## Spring AI Documentation
+## Documentação do Spring AI
 
-- Spring AI Reference: https://docs.spring.io/spring-ai/reference/index.html
-- ChatModel API: https://docs.spring.io/spring-ai/reference/api/chatmodel.html
-- ChatClient API: https://docs.spring.io/spring-ai/reference/api/chatclient.html
-- Tools API: https://docs.spring.io/spring-ai/reference/api/tools.html
-- Audio Transcriptions API: https://docs.spring.io/spring-ai/reference/api/audio/transcriptions.html
-- Audio Speech API: https://docs.spring.io/spring-ai/reference/api/audio/speech.html
+- Referência do Spring AI: https://docs.spring.io/spring-ai/reference/index.html
+- API do ChatModel: https://docs.spring.io/spring-ai/reference/api/chatmodel.html
+- API do ChatClient: https://docs.spring.io/spring-ai/reference/api/chatclient.html
+- API de ferramentas: https://docs.spring.io/spring-ai/reference/api/tools.html
+- API de transcrição de áudio: https://docs.spring.io/spring-ai/reference/api/audio/transcriptions.html
+- API de síntese de fala: https://docs.spring.io/spring-ai/reference/api/audio/speech.html
 
-## Shared Architecture References
+## Referências compartilhadas de arquitetura
 
-Common architecture concepts are documented in the root README:
+Os conceitos comuns de arquitetura estão documentados no README da raiz:
 
-- [DDD layers](../README.md#ddd-layered-architecture)
-- [Class vs record](../README.md#java-class-vs-java-record-in-domain-modeling)
-- [Strong typed identifiers](../README.md#strong-typed-identifiers)
-- [Repository pattern](../README.md#repository-pattern)
-- [Use cases and Clean Architecture](../README.md#use-cases-and-clean-architecture)
-- [Docker Compose support](../README.md#docker-compose-support-in-development)
+- [Camadas DDD](../README.md#ddd-layered-architecture)
+- [Classe vs. record](../README.md#java-class-vs-java-record-in-domain-modeling)
+- [Identificadores fortemente tipados](../README.md#strong-typed-identifiers)
+- [Padrão Repository](../README.md#repository-pattern)
+- [Casos de uso e Clean Architecture](../README.md#use-cases-and-clean-architecture)
+- [Suporte ao Docker Compose](../README.md#docker-compose-support-in-development)
 
-## How to Run
+## Como executar
 
-Set your OpenAI API key:
+Defina sua chave de API da OpenAI:
 
 ```bash
 export OPENAI_API_KEY="your_api_key_here"
 ```
 
-Run the application and tests:
+Execute a aplicação e os testes:
 
 ```bash
 ./gradlew bootRun
 ./gradlew test
 ```
 
-## Notes
+## Observações
 
-- Educational final project focused on AI plus architectural discipline.
-- External provider integration tests may require active credentials.
+- Projeto educacional final com foco em IA e disciplina arquitetural.
+- Os testes de integração com provedores externos podem exigir credenciais válidas.
